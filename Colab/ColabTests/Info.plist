@@ -20,5 +20,7 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Usamos sua localização para encontrarmos fotos tiradas próximas a você</string>
 </dict>
 </plist>
