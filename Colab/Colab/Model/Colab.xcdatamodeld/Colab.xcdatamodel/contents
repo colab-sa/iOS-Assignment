@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6254" systemVersion="14C109" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Image" representedClassName="Image" syncable="YES">
+        <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="imageOwner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="image" inverseEntity="Media" syncable="YES"/>
+        <relationship name="thumbOwner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="thumb" inverseEntity="Media" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="avatar" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Location" representedClassName="Location" syncable="YES">
+        <attribute name="latitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="location" inverseEntity="Media" syncable="YES"/>
+    </entity>
+    <entity name="Media" representedClassName="Media" syncable="YES">
+        <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="distance" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="filter" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="likes" optional="YES" attributeType="Integer 32" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="link" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="mediaId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="caption" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Metadata" inverseName="captionOwner" inverseEntity="Metadata" syncable="YES"/>
+        <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="imageOwner" inverseEntity="Image" syncable="YES"/>
+        <relationship name="location" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Location" inverseName="media" inverseEntity="Location" syncable="YES"/>
+        <relationship name="tags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Metadata" inverseName="tagOwner" inverseEntity="Metadata" syncable="YES"/>
+        <relationship name="thumb" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="thumbOwner" inverseEntity="Image" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="media" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="Metadata" representedClassName="Metadata" syncable="YES">
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="metaId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="captionOwner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="caption" inverseEntity="Media" syncable="YES"/>
+        <relationship name="tagOwner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="tags" inverseEntity="Media" syncable="YES"/>
+    </entity>
+    <entity name="User" representedClassName="User" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="avatar" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="user" inverseEntity="Image" syncable="YES"/>
+        <relationship name="media" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Media" inverseName="user" inverseEntity="Media" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Media" positionX="70" positionY="-157" width="128" height="223"/>
+        <element name="Image" positionX="270" positionY="-108" width="128" height="118"/>
+        <element name="Metadata" positionX="-99" positionY="-64" width="128" height="103"/>
+        <element name="Location" positionX="70" positionY="68" width="128" height="103"/>
+        <element name="User" positionX="268" positionY="54" width="128" height="118"/>
+    </elements>
+</model>
