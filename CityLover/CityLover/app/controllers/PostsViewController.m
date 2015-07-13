@@ -12,6 +12,7 @@
 #import "PostViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "RMPickerViewController.h"
+#import <CBZSplashView/CBZSplashView.h>
 
 @interface PostsViewController () <CLLocationManagerDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 @property (strong, nonatomic) NSMutableArray *postsArray;
@@ -27,6 +28,16 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"PostCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"PostCell"];
+    self.tableView.contentInset = UIEdgeInsetsMake(0, -15, 0, 0);
+    self.title = @"City Lover";
+    
+    UIImage *icon = [UIImage imageNamed:@"heart2.png"];
+    UIColor *color = [UIColor colorWithRed:229.f/255.f green:123.f/255.f blue:163.f/225.f alpha:1.f];
+    CBZSplashView *splashView = [CBZSplashView splashViewWithIcon:icon backgroundColor:color];
+    
+    UIWindow *currentWindow = [UIApplication sharedApplication].keyWindow;
+    [currentWindow addSubview:splashView];
+    [splashView performSelector:@selector(startAnimation) withObject:nil afterDelay:1.5];
     
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
@@ -70,7 +81,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 75.f;
+    return 80.f;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

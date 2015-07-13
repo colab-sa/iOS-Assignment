@@ -1,3 +1,4 @@
 pod 'RestKit'
 pod 'SDWebImage'
-pod "RMPickerViewController"
+pod 'RMPickerViewController'
+pod 'CBZSplashView'
