@@ -42,14 +42,14 @@
     
     [mediaMapping addAttributeMappingsFromDictionary:@{
                                                        @"id" : @"remoteId",
-                                                       @"distance" : @"distance",
                                                        @"link" : @"link",
                                                        @"created_time" : @"createdAt",
                                                        @"likes.count" : @"likesCount",
                                                        @"comments.count" : @"commentsCount",
                                                        @"user.username" : @"username",
                                                        @"caption.text" : @"caption",
-                                                       @"location" : @"location"
+                                                       @"location.latitude" : @"latitude",
+                                                       @"location.longitude" : @"longitude",
                                                        }];
     
     [imagesMapping addAttributeMappingsFromDictionary:@{
@@ -76,9 +76,9 @@
         
         RKLogInfo(@"Loaded %lu objects", (unsigned long) mappingResult.array.count);
          //articles have been saved in core data by now
-         NSLog(@"mapp: %@", operation.HTTPRequestOperation.responseString);
+//         NSLog(@"mapp: %@", operation.HTTPRequestOperation.responseString);
         
- 
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"kInstagramRequestFinished" object:self];
  //         NSLog(@"REMOTE: %@", ((Media*)mappingResult.firstObject).remoteId);
      }
      failure: ^(RKObjectRequestOperation *operation, NSError *error) {

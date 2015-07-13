@@ -12,7 +12,6 @@
 
 @implementation Media
 
-@dynamic distance;
 @dynamic link;
 @dynamic remoteId;
 @dynamic createdAt;
@@ -20,7 +19,8 @@
 @dynamic commentsCount;
 @dynamic username;
 @dynamic caption;
-@dynamic location;
+@dynamic latitude;
+@dynamic longitude;
 @dynamic images;
 
 @end

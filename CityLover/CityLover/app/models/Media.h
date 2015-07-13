@@ -13,7 +13,6 @@
 
 @interface Media : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * distance;
 @property (nonatomic, retain) NSString * link;
 @property (nonatomic, retain) NSString * remoteId;
 @property (nonatomic, retain) NSString * createdAt;
@@ -21,7 +20,8 @@
 @property (nonatomic, retain) NSNumber * commentsCount;
 @property (nonatomic, retain) NSString * username;
 @property (nonatomic, retain) NSString * caption;
-@property (nonatomic, retain) NSString * location;
+@property (nonatomic, retain) NSString * latitude;
+@property (nonatomic, retain) NSString * longitude;
 @property (nonatomic, retain) NSSet *images;
 @end
 
