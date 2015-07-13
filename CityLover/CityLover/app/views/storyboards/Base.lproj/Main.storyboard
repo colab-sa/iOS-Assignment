@@ -26,7 +26,13 @@
                             <outlet property="delegate" destination="Krt-ou-3Cz" id="B5s-VP-wWk"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="XeH-dO-4LU"/>
+                    <navigationItem key="navigationItem" id="XeH-dO-4LU">
+                        <barButtonItem key="rightBarButtonItem" title="Filter" id="qCQ-xD-gJY">
+                            <connections>
+                                <action selector="orderBy:" destination="Krt-ou-3Cz" id="TBa-fj-5dl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <segue destination="T9b-bM-LXU" kind="show" identifier="PostDetailSegue" id="YOa-dX-CLu"/>
                     </connections>
@@ -138,6 +144,10 @@
                             <constraint firstItem="4zA-Eb-uJd" firstAttribute="leading" secondItem="z9O-N3-tf9" secondAttribute="leadingMargin" constant="10" id="zHt-KO-nRq"/>
                         </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem title="Item" id="xlY-ZE-S1Z"/>
+                    </toolbarItems>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="captionLabel" destination="u6k-M0-PTQ" id="OYj-8c-aZP"/>
                         <outlet property="commentsCountLabel" destination="bhj-dd-xGY" id="pzB-aM-d9S"/>

@@ -11,11 +11,15 @@
 #import "PostCell.h"
 #import "PostViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import "RMPickerViewController.h"
 
-@interface PostsViewController () <CLLocationManagerDelegate>
+@interface PostsViewController () <CLLocationManagerDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 @property (strong, nonatomic) NSMutableArray *postsArray;
 @property (strong, nonatomic) CLLocationManager *locationManager;
 @property (strong, nonatomic) CLLocation *userLocation;
+@property (assign, nonatomic) BOOL fetchingMorePosts;
+
+- (IBAction)orderBy:(id)sender;
 @end
 
 @implementation PostsViewController
@@ -37,6 +41,8 @@
                                              selector:@selector(reloadTableView)
                                                  name:@"kInstagramRequestFinished"
                                                object:nil];
+    
+    self.fetchingMorePosts = YES;
 }
 
 - (NSMutableArray *)postsArray {
@@ -138,9 +144,117 @@
     }]];
 }
 
+- (NSArray *)filterArrayByLocationAndProximity:(NSArray *)array {
+    NSArray *response = [array filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Media *m, NSDictionary *bindings) {
+        if (!(m.longitude && m.latitude)) {
+            return NO;
+        }
+        
+        CLLocation *postLocation = [[CLLocation alloc] initWithLatitude:m.latitude.doubleValue longitude:m.longitude.doubleValue];
+        CLLocationDistance meters = [self.userLocation distanceFromLocation:postLocation];
+        NSLog(@"distance: %f", meters);
+        if (meters <= 20000) {
+            return YES;
+        }
+        return NO;
+    }]];
+    
+    return [response sortedArrayUsingDescriptors:@[]];
+}
+
 - (void)reloadTableView {
     self.postsArray = [[self filterArrayByLocation:[[RequestManager sharedManager] fetchPostInDatabase]] mutableCopy];
     [self.tableView reloadData];
+    self.fetchingMorePosts = NO;
+}
+
+- (IBAction)orderBy:(id)sender {
+    RMAction *selectAction = [RMAction actionWithTitle:@"Select" style:RMActionStyleDone andHandler:^(RMActionController *controller) {
+        
+        NSUInteger selected = [((RMPickerViewController *)controller).picker selectedRowInComponent:0];
+        NSLog(@"selected: %lu", (unsigned long)selected);
+        
+        [self sortPostsBy:selected];
+        [controller dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    //Create cancel action
+    RMAction *cancelAction = [RMAction actionWithTitle:@"Cancel" style:RMActionStyleCancel andHandler:^(RMActionController *controller) {
+        NSLog(@"Action controller was canceled");
+        [controller dismissViewControllerAnimated:YES completion:nil];
+    }];
+    
+    RMPickerViewController *pickerController = [RMPickerViewController actionControllerWithStyle:RMActionControllerStyleWhite selectAction:selectAction andCancelAction:cancelAction];
+    
+    pickerController.picker.delegate = self;
+    pickerController.picker.dataSource = self;
+    
+    [self presentViewController:pickerController animated:YES completion:nil];
+}
+
+- (void)sortPostsBy:(NSUInteger)option {
+    NSSortDescriptor *descriptor;
+    if (option == 2) {
+        self.postsArray = [[self.postsArray sortedArrayUsingComparator:^(Media *a, Media *b) {
+            CLLocation *aLocation = [[CLLocation alloc] initWithLatitude:a.latitude.doubleValue longitude:a.longitude.doubleValue];
+            CLLocation *bLocation = [[CLLocation alloc] initWithLatitude:b.latitude.doubleValue longitude:b.longitude.doubleValue];
+            CLLocationDistance aDistance = [self.userLocation distanceFromLocation:aLocation];
+            CLLocationDistance bDistance = [self.userLocation distanceFromLocation:bLocation];
+            
+            if ( aDistance < bDistance ) {
+                return (NSComparisonResult) NSOrderedAscending;
+            } else if ( aDistance > bDistance) {
+                return (NSComparisonResult) NSOrderedDescending;
+            } else {
+                return (NSComparisonResult) NSOrderedSame;
+            }
+        }] mutableCopy];
+        return;
+    } else if (option == 1) {
+        descriptor = [NSSortDescriptor sortDescriptorWithKey:@"likesCount" ascending:NO];
+    } else if (option == 0) {
+        descriptor = [NSSortDescriptor sortDescriptorWithKey:@"createdAt" ascending:NO];
+    }
+    self.postsArray = [[self.postsArray sortedArrayUsingDescriptors:@[descriptor]] mutableCopy];
+    [self.tableView reloadData];
+}
+
+#pragma mark - ScrollView
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGPoint scrollOffset = scrollView.contentOffset;
+    CGRect scrollBounds = scrollView.bounds;
+    CGSize scrollContentSize = scrollView.contentSize;
+    UIEdgeInsets scrollContentInset = scrollView.contentInset;
+    
+    float scrollPosY = scrollOffset.y + scrollBounds.size.height - scrollContentInset.bottom;
+    
+    if (scrollPosY > scrollContentSize.height * 3/4 && !self.fetchingMorePosts) { // LOAD MORE
+        self.fetchingMorePosts = YES;
+        [[RequestManager sharedManager] fetchNextPage];
+    }
+}
+
+#pragma mark - Picker
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [self pickerData].count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+    return [self pickerData][row];
+}
+
+- (NSArray *)pickerData {
+    return @[
+             @"Date",
+             @"Likes",
+             @"Distance"
+             ];
 }
 
 @end

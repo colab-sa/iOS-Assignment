@@ -75,8 +75,11 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:requestPath parameters:@{@"client_id" : INSTAGRAM_CLIENT_ID} success: ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         
         RKLogInfo(@"Loaded %lu objects", (unsigned long) mappingResult.array.count);
-         //articles have been saved in core data by now
-//         NSLog(@"mapp: %@", operation.HTTPRequestOperation.responseString);
+
+        NSLog(@"mapp: %@", operation.HTTPRequestOperation.responseString);
+        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:operation.HTTPRequestOperation.responseData options:0 error:nil];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:response[@"pagination"][@"next_url"] forKey:@"nextUrl"];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"kInstagramRequestFinished" object:self];
  //         NSLog(@"REMOTE: %@", ((Media*)mappingResult.firstObject).remoteId);
@@ -85,6 +88,67 @@
          RKLogError(@"Load failed with error: %@", error);
      }];
 }
+
+- (void)fetchNextPage {
+    AppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
+    RKObjectManager *objectManager = [RKObjectManager sharedManager];
+    
+    RKEntityMapping *mediaMapping = [RKEntityMapping mappingForEntityForName:@"Media"
+                                                        inManagedObjectStore:appDelegate.managedObjectStore];
+    mediaMapping.identificationAttributes = @[ @"remoteId" ];
+    
+    RKEntityMapping *imagesMapping = [RKEntityMapping mappingForEntityForName:@"Image"
+                                                         inManagedObjectStore:appDelegate.managedObjectStore];
+    imagesMapping.identificationAttributes = @[ @"url" ];
+    
+    [mediaMapping addAttributeMappingsFromDictionary:@{
+                                                       @"id" : @"remoteId",
+                                                       @"link" : @"link",
+                                                       @"created_time" : @"createdAt",
+                                                       @"likes.count" : @"likesCount",
+                                                       @"comments.count" : @"commentsCount",
+                                                       @"user.username" : @"username",
+                                                       @"caption.text" : @"caption",
+                                                       @"location.latitude" : @"latitude",
+                                                       @"location.longitude" : @"longitude",
+                                                       }];
+    
+    [imagesMapping addAttributeMappingsFromDictionary:@{
+                                                        @"standard_resolution.url" : @"url",
+                                                        @"standard_resolution.width" : @"width",
+                                                        @"standard_resolution.height" : @"height"
+                                                        }];
+    
+    [mediaMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"images"
+                                                                                 toKeyPath:@"images"
+                                                                               withMapping:imagesMapping]];
+    
+    RKResponseDescriptor *mediaResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:mediaMapping
+                                                                                                 method:RKRequestMethodGET
+                                                                                            pathPattern:@"/v1/tags/:tag_name/media/recent"
+                                                                                                keyPath:@"data"
+                                                                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    [objectManager addResponseDescriptor:mediaResponseDescriptor];
+    
+    NSString *requestPath = [[[NSUserDefaults standardUserDefaults] objectForKey:@"nextUrl"] stringByReplacingOccurrencesOfString:@"https://api.instagram.com" withString:@""];
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:requestPath parameters:@{@"client_id" : INSTAGRAM_CLIENT_ID} success: ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        
+        RKLogInfo(@"Loaded %lu objects", (unsigned long) mappingResult.array.count);
+
+        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:operation.HTTPRequestOperation.responseData options:0 error:nil];
+        [[NSUserDefaults standardUserDefaults] setObject:response[@"pagination"][@"next_url"] forKey:@"nextUrl"];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"kInstagramRequestFinished" object:self];
+        //         NSLog(@"REMOTE: %@", ((Media*)mappingResult.firstObject).remoteId);
+        }
+      failure: ^(RKObjectRequestOperation *operation, NSError *error) {
+          RKLogError(@"Load failed with error: %@", error);
+      }];
+}
+
+#pragma mark - Core Data
 
 - (NSArray *)fetchPostInDatabase {
     NSManagedObjectContext *context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;

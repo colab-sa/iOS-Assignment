@@ -15,5 +15,6 @@
 + (instancetype)sharedManager;
 - (void)fetchAllPostInCity:(NSString *)city;
 - (NSArray *)fetchPostInDatabase;
+- (void)fetchNextPage;
 - (void)saveImage:(UIImage *)image onEntity:(Image *)entity;
 @end
