@@ -9,9 +9,11 @@
 #import "PostsViewController.h"
 #import "RequestManager.h"
 #import "PostCell.h"
+#import <CoreLocation/CoreLocation.h>
 
-@interface PostsViewController ()
+@interface PostsViewController () <CLLocationManagerDelegate>
 @property (strong, nonatomic) NSMutableArray *postsArray;
+@property (strong, nonatomic) CLLocationManager *locationManager;
 @end
 
 @implementation PostsViewController
@@ -20,13 +22,14 @@
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"PostCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"PostCell"];
     
-    NSString *cityTest = @"São Paulo";
-    cityTest = [cityTest stringByReplacingOccurrencesOfString:@" " withString:@""];
-    NSData *data = [cityTest dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *city = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-    NSLog(@"city: %@", city);
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     
-    [[RequestManager sharedManager] fetchAllPostInCity:city];
+    if([self locationAuthorized])
+        [self.locationManager startUpdatingLocation];
+    else
+        [self.locationManager requestWhenInUseAuthorization];
 }
 
 - (NSMutableArray *)postsArray {
@@ -55,6 +58,48 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 75.f;
+}
+
+#pragma mark - Location delegate
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if ([self locationAuthorized]){
+        [manager startUpdatingLocation];
+    } else {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Opa!" message:@"Precisamos da sua localização para mostrar os melhores posts que a cidade tem pra você 😉" preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            [alert dismissViewControllerAnimated:YES completion:nil];
+        }]];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
+    [manager stopUpdatingLocation];
+    
+    CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
+    [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        CLPlacemark *placemark = (CLPlacemark *)placemarks[0];
+        NSLog(@"placemark: %@", placemark.locality);
+        [[RequestManager sharedManager] fetchAllPostInCity:[self cleanString:placemark.locality]];
+    }];
+}
+
+- (BOOL)locationAuthorized {
+    return [CLLocationManager locationServicesEnabled] &&
+    [CLLocationManager authorizationStatus] != kCLAuthorizationStatusDenied &&
+    ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedWhenInUse ||
+     [CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorizedAlways);
+}
+
+#pragma mark - 
+
+- (NSString *)cleanString:(NSString *)string {
+    NSString *cleanString = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
+    NSData *data = [cleanString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+    cleanString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+    NSLog(@"city: %@", cleanString);
+    
+    return cleanString;
 }
 
 @end
