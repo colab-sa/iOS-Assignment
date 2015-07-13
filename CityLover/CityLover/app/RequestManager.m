@@ -17,14 +17,14 @@
 
 @implementation RequestManager
 
-+ (instancetype)sharedDelegate {
-    static RequestManager *sharedDelegate = nil;
++ (instancetype)sharedManager {
+    static RequestManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     
     dispatch_once(&onceToken, ^{
-        sharedDelegate = [[self alloc] init];
+        sharedManager = [[self alloc] init];
     });
-    return sharedDelegate;
+    return sharedManager;
 }
 
 
@@ -95,6 +95,17 @@
     
     NSError *error = nil;
     return [context executeFetchRequest:fetchRequest error:&error];
+}
+
+- (void)saveImage:(UIImage *)image onEntity:(Image *)entity {
+    NSManagedObjectContext *context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+    
+    entity.imageData = UIImageJPEGRepresentation(image, 1.f);
+    
+    NSError *error = nil;
+    if(![context saveToPersistentStore:&error]) {
+        NSLog(@"Failed saving image on entity: %@", entity);
+    }
 }
 
 @end

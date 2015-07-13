@@ -26,12 +26,12 @@
     NSString *city = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
     NSLog(@"city: %@", city);
     
-    [[RequestManager sharedDelegate] fetchAllPostInCity:city];
+    [[RequestManager sharedManager] fetchAllPostInCity:city];
 }
 
 - (NSMutableArray *)postsArray {
     if (!_postsArray) {
-        _postsArray = [[[RequestManager sharedDelegate] fetchPostInDatabase] mutableCopy];
+        _postsArray = [[[RequestManager sharedManager] fetchPostInDatabase] mutableCopy];
     }
     return _postsArray;
 }

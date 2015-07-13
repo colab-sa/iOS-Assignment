@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+#import "Image.h"
 
 @interface RequestManager : NSObject
 
-+ (instancetype)sharedDelegate;
++ (instancetype)sharedManager;
 - (void)fetchAllPostInCity:(NSString *)city;
 - (NSArray *)fetchPostInDatabase;
-
+- (void)saveImage:(UIImage *)image onEntity:(Image *)entity;
 @end
