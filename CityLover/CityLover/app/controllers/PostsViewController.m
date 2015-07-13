@@ -240,7 +240,7 @@
     
     float scrollPosY = scrollOffset.y + scrollBounds.size.height - scrollContentInset.bottom;
     
-    if (scrollPosY > scrollContentSize.height * 3/4 && !self.fetchingMorePosts) { // LOAD MORE
+    if (scrollPosY > scrollContentSize.height * 3/4 && !self.fetchingMorePosts && [[NSUserDefaults standardUserDefaults] objectForKey:@"nextUrl"]) {
         self.fetchingMorePosts = YES;
         [[RequestManager sharedManager] fetchNextPage];
     }
