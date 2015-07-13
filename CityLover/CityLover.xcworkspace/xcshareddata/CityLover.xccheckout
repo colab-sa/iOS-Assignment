@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>75329D47-9B42-4DB2-A198-5D0E2E325323</string>
+	<key>IDESourceControlProjectName</key>
+	<string>CityLover</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>D48C11701415FBF2856055900C8F2B0500E7CCC1</key>
+		<string>https://github.com/rafaelsrocha/iOS-Assignment.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>CityLover/CityLover.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>D48C11701415FBF2856055900C8F2B0500E7CCC1</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/rafaelsrocha/iOS-Assignment.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>D48C11701415FBF2856055900C8F2B0500E7CCC1</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>D48C11701415FBF2856055900C8F2B0500E7CCC1</string>
+			<key>IDESourceControlWCCName</key>
+			<string>iOS-Assignment</string>
+		</dict>
+	</array>
+</dict>
+</plist>
