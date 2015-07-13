@@ -17,6 +17,9 @@
 		5333A9851B54125D001812E8 /* CLDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5333A9831B54125D001812E8 /* CLDataModel.xcdatamodeld */; };
 		5333A9881B541286001812E8 /* PostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5333A9871B541286001812E8 /* PostCell.m */; };
 		5333A98A1B541296001812E8 /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5333A9891B541296001812E8 /* PostCell.xib */; };
+		5333A9991B541ABB001812E8 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 5333A9981B541ABB001812E8 /* Media.m */; };
+		5333A99C1B541ABC001812E8 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 5333A99B1B541ABC001812E8 /* Image.m */; };
+		5333A99F1B54285B001812E8 /* RequestManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5333A99E1B54285B001812E8 /* RequestManager.m */; };
 		5FF9A44095B3827840FC7F27 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C7C984BFFEAB1C6D384F1E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +52,12 @@
 		5333A9861B541286001812E8 /* PostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostCell.h; sourceTree = "<group>"; };
 		5333A9871B541286001812E8 /* PostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostCell.m; sourceTree = "<group>"; };
 		5333A9891B541296001812E8 /* PostCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
+		5333A9971B541ABB001812E8 /* Media.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
+		5333A9981B541ABB001812E8 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
+		5333A99A1B541ABC001812E8 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		5333A99B1B541ABC001812E8 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
+		5333A99D1B54285B001812E8 /* RequestManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestManager.h; sourceTree = "<group>"; };
+		5333A99E1B54285B001812E8 /* RequestManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestManager.m; sourceTree = "<group>"; };
 		949C7DDB9FC91B4E76E53E99 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D2C7C984BFFEAB1C6D384F1E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -132,6 +141,8 @@
 			children = (
 				5333A96F1B5410DB001812E8 /* AppDelegate.h */,
 				5333A9701B5410DB001812E8 /* AppDelegate.m */,
+				5333A99D1B54285B001812E8 /* RequestManager.h */,
+				5333A99E1B54285B001812E8 /* RequestManager.m */,
 				5333A9711B5410DB001812E8 /* assets */,
 				5333A9731B5410DB001812E8 /* controllers */,
 				5333A9741B5410DB001812E8 /* models */,
@@ -161,6 +172,10 @@
 			isa = PBXGroup;
 			children = (
 				5333A9831B54125D001812E8 /* CLDataModel.xcdatamodeld */,
+				5333A99A1B541ABC001812E8 /* Image.h */,
+				5333A99B1B541ABC001812E8 /* Image.m */,
+				5333A9971B541ABB001812E8 /* Media.h */,
+				5333A9981B541ABB001812E8 /* Media.m */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -347,10 +362,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				5333A97C1B5410DB001812E8 /* AppDelegate.m in Sources */,
+				5333A9991B541ABB001812E8 /* Media.m in Sources */,
 				5333A94B1B54101D001812E8 /* main.m in Sources */,
 				5333A9851B54125D001812E8 /* CLDataModel.xcdatamodeld in Sources */,
 				5333A9821B541122001812E8 /* PostsViewController.m in Sources */,
 				5333A9881B541286001812E8 /* PostCell.m in Sources */,
+				5333A99C1B541ABC001812E8 /* Image.m in Sources */,
+				5333A99F1B54285B001812E8 /* RequestManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
