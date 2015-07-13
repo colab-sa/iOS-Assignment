@@ -14,6 +14,9 @@
 		5333A97E1B5410DB001812E8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5333A9781B5410DB001812E8 /* LaunchScreen.xib */; };
 		5333A97F1B5410DB001812E8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5333A97A1B5410DB001812E8 /* Main.storyboard */; };
 		5333A9821B541122001812E8 /* PostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5333A9811B541122001812E8 /* PostsViewController.m */; };
+		5333A9851B54125D001812E8 /* CLDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 5333A9831B54125D001812E8 /* CLDataModel.xcdatamodeld */; };
+		5333A9881B541286001812E8 /* PostCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5333A9871B541286001812E8 /* PostCell.m */; };
+		5333A98A1B541296001812E8 /* PostCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5333A9891B541296001812E8 /* PostCell.xib */; };
 		5FF9A44095B3827840FC7F27 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C7C984BFFEAB1C6D384F1E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +45,10 @@
 		5333A97B1B5410DB001812E8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5333A9801B541122001812E8 /* PostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostsViewController.h; sourceTree = "<group>"; };
 		5333A9811B541122001812E8 /* PostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostsViewController.m; sourceTree = "<group>"; };
+		5333A9841B54125D001812E8 /* CLDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CLDataModel.xcdatamodel; sourceTree = "<group>"; };
+		5333A9861B541286001812E8 /* PostCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostCell.h; sourceTree = "<group>"; };
+		5333A9871B541286001812E8 /* PostCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostCell.m; sourceTree = "<group>"; };
+		5333A9891B541296001812E8 /* PostCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PostCell.xib; sourceTree = "<group>"; };
 		949C7DDB9FC91B4E76E53E99 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D2C7C984BFFEAB1C6D384F1E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -153,6 +160,7 @@
 		5333A9741B5410DB001812E8 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				5333A9831B54125D001812E8 /* CLDataModel.xcdatamodeld */,
 			);
 			path = models;
 			sourceTree = "<group>";
@@ -169,6 +177,9 @@
 		5333A9761B5410DB001812E8 /* cells */ = {
 			isa = PBXGroup;
 			children = (
+				5333A9861B541286001812E8 /* PostCell.h */,
+				5333A9871B541286001812E8 /* PostCell.m */,
+				5333A9891B541296001812E8 /* PostCell.xib */,
 			);
 			path = cells;
 			sourceTree = "<group>";
@@ -284,6 +295,7 @@
 				5333A97F1B5410DB001812E8 /* Main.storyboard in Resources */,
 				5333A97E1B5410DB001812E8 /* LaunchScreen.xib in Resources */,
 				5333A97D1B5410DB001812E8 /* Images.xcassets in Resources */,
+				5333A98A1B541296001812E8 /* PostCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -336,7 +348,9 @@
 			files = (
 				5333A97C1B5410DB001812E8 /* AppDelegate.m in Sources */,
 				5333A94B1B54101D001812E8 /* main.m in Sources */,
+				5333A9851B54125D001812E8 /* CLDataModel.xcdatamodeld in Sources */,
 				5333A9821B541122001812E8 /* PostsViewController.m in Sources */,
+				5333A9881B541286001812E8 /* PostCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,6 +559,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		5333A9831B54125D001812E8 /* CLDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				5333A9841B54125D001812E8 /* CLDataModel.xcdatamodel */,
+			);
+			currentVersion = 5333A9841B54125D001812E8 /* CLDataModel.xcdatamodel */;
+			path = CLDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 5333A93D1B54101D001812E8 /* Project object */;
 }
