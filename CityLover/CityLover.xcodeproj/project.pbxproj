@@ -21,7 +21,6 @@
 		5333A9A31B543BE6001812E8 /* PostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5333A9A21B543BE6001812E8 /* PostViewController.m */; };
 		5333A9AC1B544520001812E8 /* Media.m in Sources */ = {isa = PBXBuildFile; fileRef = 5333A9AB1B544520001812E8 /* Media.m */; };
 		5333A9AF1B544521001812E8 /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 5333A9AE1B544521001812E8 /* Image.m */; };
-		5333A9B21B545CBE001812E8 /* heart2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5333A9B11B545CBE001812E8 /* heart2.png */; };
 		5FF9A44095B3827840FC7F27 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D2C7C984BFFEAB1C6D384F1E /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -62,7 +61,6 @@
 		5333A9AB1B544520001812E8 /* Media.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Media.m; sourceTree = "<group>"; };
 		5333A9AD1B544521001812E8 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		5333A9AE1B544521001812E8 /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Image.m; sourceTree = "<group>"; };
-		5333A9B11B545CBE001812E8 /* heart2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heart2.png; sourceTree = "<group>"; };
 		949C7DDB9FC91B4E76E53E99 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D2C7C984BFFEAB1C6D384F1E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -159,7 +157,6 @@
 		5333A9711B5410DB001812E8 /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				5333A9B11B545CBE001812E8 /* heart2.png */,
 				5333A9721B5410DB001812E8 /* Images.xcassets */,
 			);
 			path = assets;
@@ -318,7 +315,6 @@
 				5333A97F1B5410DB001812E8 /* Main.storyboard in Resources */,
 				5333A97E1B5410DB001812E8 /* LaunchScreen.xib in Resources */,
 				5333A97D1B5410DB001812E8 /* Images.xcassets in Resources */,
-				5333A9B21B545CBE001812E8 /* heart2.png in Resources */,
 				5333A98A1B541296001812E8 /* PostCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -505,6 +501,7 @@
 			baseConfigurationReference = 4392CADE35A10EABC3F2DC39 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = CityLover/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -516,6 +513,7 @@
 			baseConfigurationReference = 949C7DDB9FC91B4E76E53E99 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = CityLover/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";

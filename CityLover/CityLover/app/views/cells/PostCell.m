@@ -17,21 +17,9 @@
 
 @implementation PostCell
 
-- (void)awakeFromNib {
-    // Initialization code
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
-}
-
 - (void)setData:(Media *)media {
     self.creatorLabel.text = media.username;
     Image *i = (Image *) media.images.allObjects.firstObject;
-    
-//    NSLog(@"location: %@ / %@", media.latitude, media.longitude);
     
     if (i.imageData) {
         self.thumbnailView.image = [self applyGrayscaleFilter:[UIImage imageWithData:i.imageData]];

@@ -21,11 +21,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = self.media.username;
     
     self.pictureView.image = [UIImage imageWithData: ((Image *) self.media.images.allObjects.firstObject).imageData];
     self.likesCountLabel.text = [NSString stringWithFormat: @"%@", self.media.likesCount];
     self.commentsCountLabel.text = [NSString stringWithFormat: @"%@", self.media.commentsCount];
     self.usernameLabel.text = self.media.username;
+    self.usernameLabel.adjustsFontSizeToFitWidth = YES;
     self.captionLabel.text = self.media.caption;
     
     CGRect rect = self.captionLabel.bounds;

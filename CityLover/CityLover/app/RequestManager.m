@@ -73,16 +73,12 @@
     NSString *requestPath = [NSString stringWithFormat:@"/v1/tags/%@/media/recent", city];
     
     [[RKObjectManager sharedManager] getObjectsAtPath:requestPath parameters:@{@"client_id" : INSTAGRAM_CLIENT_ID} success: ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        
-        RKLogInfo(@"Loaded %lu objects", (unsigned long) mappingResult.array.count);
 
-        NSLog(@"mapp: %@", operation.HTTPRequestOperation.responseString);
         NSDictionary *response = [NSJSONSerialization JSONObjectWithData:operation.HTTPRequestOperation.responseData options:0 error:nil];
         
         [[NSUserDefaults standardUserDefaults] setObject:response[@"pagination"][@"next_url"] forKey:@"nextUrl"];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"kInstagramRequestFinished" object:self];
- //         NSLog(@"REMOTE: %@", ((Media*)mappingResult.firstObject).remoteId);
      }
      failure: ^(RKObjectRequestOperation *operation, NSError *error) {
          RKLogError(@"Load failed with error: %@", error);
@@ -141,11 +137,9 @@
         [[NSUserDefaults standardUserDefaults] setObject:response[@"pagination"][@"next_url"] forKey:@"nextUrl"];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"kInstagramRequestFinished" object:self];
-        //         NSLog(@"REMOTE: %@", ((Media*)mappingResult.firstObject).remoteId);
-        }
-      failure: ^(RKObjectRequestOperation *operation, NSError *error) {
+     } failure: ^(RKObjectRequestOperation *operation, NSError *error) {
           RKLogError(@"Load failed with error: %@", error);
-      }];
+     }];
 }
 
 #pragma mark - Core Data

@@ -6,13 +6,13 @@
 //  Copyright (c) 2015 Rocha, O Desenvolvedor. All rights reserved.
 //
 
+#import <CoreLocation/CoreLocation.h>
+#import <CBZSplashView/CBZSplashView.h>
 #import "PostsViewController.h"
 #import "RequestManager.h"
 #import "PostCell.h"
 #import "PostViewController.h"
-#import <CoreLocation/CoreLocation.h>
 #import "RMPickerViewController.h"
-#import <CBZSplashView/CBZSplashView.h>
 
 @interface PostsViewController () <CLLocationManagerDelegate, UIPickerViewDataSource, UIPickerViewDelegate>
 @property (strong, nonatomic) NSMutableArray *postsArray;
@@ -31,7 +31,7 @@
     self.tableView.contentInset = UIEdgeInsetsMake(0, -15, 0, 0);
     self.title = @"City Lover";
     
-    UIImage *icon = [UIImage imageNamed:@"heart2.png"];
+    UIImage *icon = [UIImage imageNamed:@"heart"];
     UIColor *color = [UIColor colorWithRed:229.f/255.f green:123.f/255.f blue:163.f/225.f alpha:1.f];
     CBZSplashView *splashView = [CBZSplashView splashViewWithIcon:icon backgroundColor:color];
     
@@ -116,7 +116,6 @@
     CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
     [geoCoder reverseGeocodeLocation:newLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         CLPlacemark *placemark = (CLPlacemark *)placemarks[0];
-        NSLog(@"placemark: %@", placemark.locality);
         [[RequestManager sharedManager] fetchAllPostInCity:[self cleanString:placemark.locality]];
     }];
 }
@@ -134,7 +133,6 @@
     NSString *cleanString = [string stringByReplacingOccurrencesOfString:@" " withString:@""];
     NSData *data = [cleanString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     cleanString = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-    NSLog(@"city: %@", cleanString);
     
     return cleanString;
 }
@@ -147,7 +145,6 @@
         
         CLLocation *postLocation = [[CLLocation alloc] initWithLatitude:m.latitude.doubleValue longitude:m.longitude.doubleValue];
         CLLocationDistance meters = [self.userLocation distanceFromLocation:postLocation];
-        NSLog(@"distance: %f", meters);
         if (meters <= 20000) {
             return YES;
         }
@@ -163,7 +160,6 @@
         
         CLLocation *postLocation = [[CLLocation alloc] initWithLatitude:m.latitude.doubleValue longitude:m.longitude.doubleValue];
         CLLocationDistance meters = [self.userLocation distanceFromLocation:postLocation];
-        NSLog(@"distance: %f", meters);
         if (meters <= 20000) {
             return YES;
         }
@@ -175,7 +171,9 @@
 
 - (void)reloadTableView {
     self.postsArray = [[self filterArrayByLocation:[[RequestManager sharedManager] fetchPostInDatabase]] mutableCopy];
-    [self.tableView reloadData];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+        [self.tableView reloadData];
+    });
     self.fetchingMorePosts = NO;
 }
 
@@ -183,7 +181,6 @@
     RMAction *selectAction = [RMAction actionWithTitle:@"Select" style:RMActionStyleDone andHandler:^(RMActionController *controller) {
         
         NSUInteger selected = [((RMPickerViewController *)controller).picker selectedRowInComponent:0];
-        NSLog(@"selected: %lu", (unsigned long)selected);
         
         [self sortPostsBy:selected];
         [controller dismissViewControllerAnimated:YES completion:nil];
@@ -191,7 +188,6 @@
     
     //Create cancel action
     RMAction *cancelAction = [RMAction actionWithTitle:@"Cancel" style:RMActionStyleCancel andHandler:^(RMActionController *controller) {
-        NSLog(@"Action controller was canceled");
         [controller dismissViewControllerAnimated:YES completion:nil];
     }];
     
@@ -241,8 +237,10 @@
     float scrollPosY = scrollOffset.y + scrollBounds.size.height - scrollContentInset.bottom;
     
     if (scrollPosY > scrollContentSize.height * 3/4 && !self.fetchingMorePosts && [[NSUserDefaults standardUserDefaults] objectForKey:@"nextUrl"]) {
-        self.fetchingMorePosts = YES;
-        [[RequestManager sharedManager] fetchNextPage];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+            self.fetchingMorePosts = YES;
+            [[RequestManager sharedManager] fetchNextPage];
+        });
     }
 }
 

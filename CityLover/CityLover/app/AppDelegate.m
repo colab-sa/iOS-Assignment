@@ -48,9 +48,7 @@
     [[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:229.f/255.f green:123.f/255.f blue:163.f/225.f alpha:1.f]];
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
     
-//    UINavigationBar.appearance().tintColor = UIColor.whiteColor()
-//    UINavigationBar.appearance().barTintColor = UIColor.customBlueColor()
-//    UINavigationBar.appearance().titleTextAttributes = titleAttributes
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     
     return YES;
 }
